@@ -22,9 +22,9 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install g++ make wget git -y
-        wget https://github.com/tdlib/td/archive/refs/tags/v1.7.9.tar.gz
-        tar -xvzf v1.7.9.tar.gz
-        cd td-1.7.9 && mkdir build && cd build
+        wget https://github.com/tdlib/td/archive/refs/tags/v1.8.0.tar.gz
+        tar -xvzf v1.8.0.tar.gz
+        cd td-1.8.0 && mkdir build && cd build
         cmake .. && cmake --build . --target install
         pip install -r requirements.txt
 
