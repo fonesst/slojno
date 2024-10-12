@@ -1,4 +1,4 @@
-name: Telegram Bot Deployment
+name: Run Telegram Bot
 
 on:
   push:
@@ -6,28 +6,21 @@ on:
       - main
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.9'
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install g++ make wget git -y
-        wget https://github.com/tdlib/td/archive/refs/tags/v1.8.0.tar.gz
-        tar -xvzf v1.8.0.tar.gz
-        cd td-1.8.0 && mkdir build && cd build
-        cmake .. && cmake --build . --target install
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run the bot
+    - name: Run bot
       run: |
         python main.py
