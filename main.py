@@ -1,29 +1,33 @@
-import os
 import subprocess
+from telegram import Bot, Update
+from telegram.ext import CommandHandler, Updater
 
-REPO_URL = "https://github.com/YOUR_USERNAME/telegram-bot.git"
-REPO_DIR = "telegram-bot"
+# Function to install TDLib API automatically
+def install_telegram_bot_api():
+    subprocess.run(["pip", "install", "telegram-bot-api"])
 
-def clone_and_install():
-    # Клонирование репозитория
-    if not os.path.exists(REPO_DIR):
-        print("Клонирование репозитория...")
-        subprocess.run(["git", "clone", REPO_URL])
-    else:
-        print("Репозиторий уже существует. Выполняется обновление...")
-        os.chdir(REPO_DIR)
-        subprocess.run(["git", "pull"])
-        os.chdir("..")
+# Install telegram-bot-api without cloning the repo
+install_telegram_bot_api()
 
-    # Установка зависимостей
-    print("Установка зависимостей...")
-    subprocess.run(["pip", "install", "-r", f"{REPO_DIR}/requirements.txt"])
+# Your Telegram Bot Token
+API_TOKEN = '7368730334:AAH9xUG8G_Ro8mvV_fDQxd5ddkwjxHnBoeg'
 
-def run_bot():
-    # Запуск бота
-    print("Запуск бота...")
-    subprocess.run(["python3", f"{REPO_DIR}/bot.py"])
+# Greeting function
+def start(update: Update, context):
+    user_first_name = update.message.chat.first_name
+    update.message.reply_text(f"Hello, {user_first_name}! Welcome to the bot!")
+
+# Main function to handle bot setup
+def main():
+    updater = Updater(API_TOKEN, use_context=True)
+    dp = updater.dispatcher
+
+    # Start command to greet users
+    dp.add_handler(CommandHandler("start", start))
+
+    # Start the bot
+    updater.start_polling()
+    updater.idle()
 
 if __name__ == "__main__":
-    clone_and_install()
-    run_bot()
+    main()
