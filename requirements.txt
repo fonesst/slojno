@@ -1,2 +1,2 @@
 python-telegram-bot==13.15
-telegram-bot-api
+tdlib==1.6.0
