@@ -1,6 +1,6 @@
 import requests
 
-API_URL = 'http://localhost:8081/bot<7368730334:AAH9xUG8G_Ro8mvV_fDQxd5ddkwjxHnBoeg>/'
+API_URL = 'http://localhost:8081/bot7368730334:AAH9xUG8G_Ro8mvV_fDQxd5ddkwjxHnBoeg/'
 
 def send_message(chat_id, text):
     url = f"{API_URL}sendMessage"
