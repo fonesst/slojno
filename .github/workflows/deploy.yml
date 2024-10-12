@@ -3,8 +3,8 @@ name: Deploy Telegram Bot
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - main  # Срабатывает при пуше в ветку main
+  workflow_dispatch:  # Позволяет вручную запустить действие через интерфейс GitHub
 
 jobs:
   deploy:
@@ -24,14 +24,8 @@ jobs:
           python3 -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Start Telegram Bot API
-        run: |
-          wget https://github.com/tdlib/telegram-bot-api/releases/download/v6.0/tg-server-linux -O tg-server
-          chmod +x tg-server
-          ./tg-server --http-port 8081 &
-        shell: bash
-
       - name: Run bot
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        run:
+        run: |
+          python3 bot.py
