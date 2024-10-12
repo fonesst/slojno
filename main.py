@@ -1,16 +1,18 @@
-import subprocess
+import os
+import asyncio
 from telegram import Bot, Update
 from telegram.ext import CommandHandler, Updater
-
-# Function to install TDLib API automatically
-def install_telegram_bot_api():
-    subprocess.run(["pip", "install", "telegram-bot-api"])
-
-# Install telegram-bot-api without cloning the repo
-install_telegram_bot_api()
+from td.client import Client
 
 # Your Telegram Bot Token
 API_TOKEN = '7368730334:AAH9xUG8G_Ro8mvV_fDQxd5ddkwjxHnBoeg'
+
+# Initialize TDLib client
+async def init_tdlib():
+    tdlib_path = "/usr/local/lib/libtdjson.so"  # Update this path to your system's tdjson location
+    td_client = Client(tdlib_path)
+    await td_client.connect()
+    return td_client
 
 # Greeting function
 def start(update: Update, context):
@@ -30,4 +32,6 @@ def main():
     updater.idle()
 
 if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(init_tdlib())
     main()
